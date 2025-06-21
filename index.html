@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --light-color: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--light-color);
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .profile-bio {
+            font-size: 16px;
+            color: #666;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .links-section {
+            margin-bottom: 30px;
+        }
+
+        .link-item {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .link-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .link-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .link-content {
+            flex: 1;
+        }
+
+        .link-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .link-url {
+            font-size: 14px;
+            color: #666;
+            word-break: break-all;
+        }
+
+        .qr-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .qr-section h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        #qr-code {
+            display: inline-block;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        .footer {
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+
+        /* Customization form styles */
+        .customization-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .profile-pic {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-name {
+                font-size: 20px;
+            }
+        
+            .profile-bio {
+                font-size: 14px;
+            }
+            
+            .link-item {
+                padding: 12px;
+            }
+            
+            .link-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>LinkHub</h1>
+        </div>
+
+        <div class="customization-form" id="customization-form">
+            <h2>Customize Your Profile</h2>
+            <div class="form-group">
+                <label for="profile-name">Your Name</label>
+                <input type="text" id="profile-name" class="form-control" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="profile-bio">Bio</label>
+                <textarea id="profile-bio" class="form-control" placeholder="Enter a short bio"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="profile-pic-url">Profile Picture URL</label>
+                <input type="url" id="profile-pic-url" class="form-control" placeholder="Enter image URL">
+            </div>
+            <div class="form-actions">
+                <button id="cancel-customization" class="btn btn-danger">Cancel</button>
+                <button id="save-customization" class="btn btn-success">Save Changes</button>
+            </div>
+        </div>
+
+        <div class="profile-section">
+            <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-pic" id="profile-pic">
+            <h1 class="profile-name" id="profile-name-display">@yourusername</h1>
+            <p class="profile-bio" id="profile-bio-display">Welcome to my LinkHub! Connect with me on all platforms.</p>
+            <button id="edit-profile-btn" class="btn">Edit Profile</button>
+        </div>
+        
+        <div class="links-section" id="links-container">
+            <!-- Links will be added dynamically by JavaScript -->
+        </div>
+
+        <div class="customization-form" id="add-link-form" style="display: none;">
+            <h2>Add New Link</h2>
+            <div class="form-group">
+                <label for="link-title">Link Title</label>
+                <input type="text" id="link-title" class="form-control" placeholder="Enter link title">
+            </div>
+            <div class="form-group">
+                <label for="link-url">URL</label>
+                <input type="url" id="link-url" class="form-control" placeholder="Enter URL">
+            </div>
+            <div class="form-group">
+                <label for="link-icon">Icon</label>
+                <select id="link-icon" class="form-control">
+                    <option value="fas fa-globe">Website</option>
+                    <option value="fab fa-github">GitHub</option>
+                    <option value="fab fa-linkedin">LinkedIn</option>
+                    <option value="fab fa-twitter">Twitter</option>
+                    <option value="fab fa-instagram">Instagram</option>
+                    <option value="fab fa-facebook">Facebook</option>
+                    <option value="fab fa-youtube">YouTube</option>
+                    <option value="fas fa-envelope">Email</option>
+                    <option value="fas fa-shopping-cart">Store</option>
+                    <option value="fas fa-blog">Blog</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button id="cancel-add-link" class="btn btn-danger">Cancel</button>
+                <button id="save-link" class="btn btn-success">Add Link</button>
+            </div>
+        </div>
+
+        <button id="add-link-btn" class="btn" style="margin-bottom: 20px;">+ Add New Link</button>
+        
+        <div class="qr-section">
+            <h3>Scan to share</h3>
+            <div id="qr-code"></div>
+            <button id="share-btn" class="btn">Share My Links</button>
+        </div>
+        
+        <div class="footer">
+            <p>Powered by LinkHub</p>
+        </div>
+    </div>
+    
+    <!-- Add QR code library -->
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    
+    <script>
+        // Enhanced links data with click tracking
+        let links = [
+            {
+                id: 1,
+                title: "My Portfolio",
+                url: "https://example.com/portfolio",
+                icon: "fas fa-briefcase",
+                clicks: 0
+            },
+            {
+                id: 2,
+                title: "GitHub Profile",
+                url: "https://github.com/yourusername",
+                icon: "fab fa-github",
+                clicks: 0
+            },
+            {
+                id: 3,
+                title: "LinkedIn Profile",
+                url: "https://linkedin.com/in/yourusername",
+                icon: "fab fa-linkedin",
+                clicks: 0
+            },
+            {
+                id: 4,
+                title: "Twitter Profile",
+                url: "https://twitter.com/yourusername",
+                icon: "fab fa-twitter",
+                clicks: 0
+            },
+            {
+                id: 5,
+                title: "Latest Blog Post",
+                url: "https://example.com/blog/latest",
+                icon: "fas fa-blog",
+                clicks: 0
+            },
+            {
+                id: 6,
+                title: "Contact Me",
+                url: "mailto:you@example.com",
+                icon: "fas fa-envelope",
+                clicks: 0
+            }
+        ];
+
+        // User profile data
+        let userProfile = {
+            name: "@yourusername",
+            bio: "Welcome to my LinkHub! Connect with me on all platforms.",
+            profilePic: "https://via.placeholder.com/150"
+        };
+
+        // DOM elements
+        const linksContainer = document.getElementById('links-container');
+        const qrCodeElement = document.getElementById('qr-code');
+        const shareBtn = document.getElementById('share-btn');
+        const addLinkBtn = document.getElementById('add-link-btn');
+        const addLinkForm = document.getElementById('add-link-form');
+        const cancelAddLinkBtn = document.getElementById('cancel-add-link');
+        const saveLinkBtn = document.getElementById('save-link');
+        const editProfileBtn = document.getElementById('edit-profile-btn');
+        const customizationForm = document.getElementById('customization-form');
+        const cancelCustomizationBtn = document.getElementById('cancel-customization');
+        const saveCustomizationBtn = document.getElementById('save-customization');
+        const profileNameDisplay = document.getElementById('profile-name-display');
+        const profileBioDisplay = document.getElementById('profile-bio-display');
+        const profilePicElement = document.getElementById('profile-pic');
+
+        // Current page URL for QR code
+        const currentUrl = window.location.href;
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load saved data from localStorage if available
+            loadSavedData();
+            
+            // Create link items
+            createLinkItems();
+            
+            // Generate QR code
+            generateQRCode();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Hide customization form initially
+            customizationForm.style.display = 'none';
+        });
+
+        // Function to load saved data from localStorage
+        function loadSavedData() {
+            const savedProfile = localStorage.getItem('linkHubProfile');
+            const savedLinks = localStorage.getItem('linkHubLinks');
+            
+            if (savedProfile) {
+                userProfile = JSON.parse(savedProfile);
+                profileNameDisplay.textContent = userProfile.name;
+                profileBioDisplay.textContent = userProfile.bio;
+                profilePicElement.src = userProfile.profilePic;
+            }
+            
+            if (savedLinks) {
+                links = JSON.parse(savedLinks);
+            }
+        }
+
+        // Function to save data to localStorage
+        function saveData() {
+            localStorage.setItem('linkHubProfile', JSON.stringify(userProfile));
+            localStorage.setItem('linkHubLinks', JSON.stringify(links));
+        }
+
+        // Function to create link items
+        function createLinkItems() {
+            linksContainer.innerHTML = '';
+            
+            links.forEach(link => {
+                const linkElement = document.createElement('a');
+                linkElement.href = link.url;
+                linkElement.target = "_blank";
+                linkElement.rel = "noopener noreferrer";
+                linkElement.className = "link-item";
+                linkElement.dataset.id = link.id;
+                
+                linkElement.innerHTML = `
+                    <div class="link-icon">
+                        <i class="${link.icon}"></i>
+                    </div>
+                    <div class="link-content">
+                        <div class="link-title">${link.title}</div>
+                        <div class="link-url">${link.url.replace(/^https?:\/\//, '')}</div>
+                    </div>
+                    <button class="btn btn-danger delete-link" data-id="${link.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                
+                linksContainer.appendChild(linkElement);
+            });
+            
+            // Add event listeners for delete buttons
+            document.querySelectorAll('.delete-link').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.dataset.id);
+                    deleteLink(id);
+                });
+            });
+        }
+
+        // Function to generate QR code
+        function generateQRCode() {
+            qrCodeElement.innerHTML = '';
+            new QRCode(qrCodeElement, {
+                text: currentUrl,
+                width: 150,
+                height: 150,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        // Share functionality
+        function shareProfile() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Connect with me',
+                    text: 'Check out my links and profiles',
+                    url: currentUrl
+                })
+                .catch(err => {
+                    console.log('Error sharing:', err);
+                    copyToClipboard();
+                });
+            } else {
+                copyToClipboard();
+            }
+        }
+
+        // Fallback for browsers that don't support Web Share API
+        function copyToClipboard() {
+            navigator.clipboard.writeText(currentUrl)
+                .then(() => {
+                    alert('Link copied to clipboard!');
+                })
+                .catch(err => {
+                    console.log('Failed to copy:', err);
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = currentUrl;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert('Link copied to clipboard!');
+                });
+        }
+
+        // Function to add a new link
+        function addNewLink(title, url, icon) {
+            const newId = links.length > 0 ? Math.max(...links.map(link => link.id)) + 1 : 1;
+            
+            const newLink = {
+                id: newId,
+                title: title,
+                url: url,
+                icon: icon,
+                clicks: 0
+            };
+            
+            links.push(newLink);
+            createLinkItems();
+            saveData();
+        }
+
+        // Function to delete a link
+        function deleteLink(id) {
+            if (confirm('Are you sure you want to delete this link?')) {
+                links = links.filter(link => link.id !== id);
+                createLinkItems();
+                saveData();
+            }
+        }
+
+        // Function to set up all event listeners
+        function setupEventListeners() {
+            // Share button
+            shareBtn.addEventListener('click', shareProfile);
+            
+            // Add link button
+            addLinkBtn.addEventListener('click', () => {
+                addLinkForm.style.display = 'block';
+                addLinkBtn.style.display = 'none';
+            });
+            
+            // Cancel add link
+            cancelAddLinkBtn.addEventListener('click', () => {
+                addLinkForm.style.display = 'none';
+                addLinkBtn.style.display = 'block';
+            });
+            
+            // Save new link
+            saveLinkBtn.addEventListener('click', () => {
+                const title = document.getElementById('link-title').value;
+                const url = document.getElementById('link-url').value;
+                const icon = document.getElementById('link-icon').value;
+                
+                if (title && url) {
+                    addNewLink(title, url, icon);
+                    document.getElementById('link-title').value = '';
+                    document.getElementById('link-url').value = '';
+                    addLinkForm.style.display = 'none';
+                    addLinkBtn.style.display = 'block';
+                } else {
+                    alert('Please fill in all fields');
+                }
+            });
+            
+            // Edit profile button
+            editProfileBtn.addEventListener('click', () => {
+                document.getElementById('profile-name').value = userProfile.name;
+                document.getElementById('profile-bio').value = userProfile.bio;
+                document.getElementById('profile-pic-url').value = userProfile.profilePic;
+                customizationForm.style.display = 'block';
+            });
+            
+            // Cancel customization
+            cancelCustomizationBtn.addEventListener('click', () => {
+                customizationForm.style.display = 'none';
+            });
+            
+            // Save customization
+            saveCustomizationBtn.addEventListener('click', () => {
+                userProfile.name = document.getElementById('profile-name').value;
+                userProfile.bio = document.getElementById('profile-bio').value;
+                userProfile.profilePic = document.getElementById('profile-pic-url').value || "https://via.placeholder.com/150";
+                
+                profileNameDisplay.textContent = userProfile.name;
+                profileBioDisplay.textContent = userProfile.bio;
+                profilePicElement.src = userProfile.profilePic;
+                
+                customizationForm.style.display = 'none';
+                saveData();
+            });
+        }
+    </script>
+</body>
+</html>
